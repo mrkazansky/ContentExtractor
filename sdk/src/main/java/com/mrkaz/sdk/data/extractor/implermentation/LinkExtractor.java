@@ -1,7 +1,5 @@
 package com.mrkaz.sdk.data.extractor.implermentation;
 
-import android.util.Patterns;
-
 import com.mrkaz.sdk.data.cache.Cache;
 import com.mrkaz.sdk.data.cache.CacheData;
 import com.mrkaz.sdk.data.extractor.Extractor;
@@ -16,8 +14,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LinkExtractor extends Extractor<LinkInfo> {
-    private static final Pattern LINK_PATTERN = Patterns.WEB_URL;
-    private static final String EMPTY_TITLE = "Empty title";
+    public static final String EMPTY_TITLE = "Empty title";
+    private static final String URL_PATTERN_REGEX = "(?i)\\bhttps?://" +
+            "(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+" +
+            "(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’])";
+    private static final Pattern URL_PATTERN = Pattern.compile(URL_PATTERN_REGEX);
     private static final TimeUnit CACHE_TIME_UNIT = TimeUnit.MINUTES;
     private static final int CACHE_TIMEOUT = 10;
 
@@ -32,7 +33,7 @@ public class LinkExtractor extends Extractor<LinkInfo> {
     @Override
     public List<LinkInfo> extract(String input) {
         List<LinkInfo> links = new ArrayList<>();
-        Matcher matcher = LINK_PATTERN.matcher(input);
+        Matcher matcher = URL_PATTERN.matcher(input);
         while (matcher.find()) {
             String url = matcher.group();
             if (cache.isCached(url)) {

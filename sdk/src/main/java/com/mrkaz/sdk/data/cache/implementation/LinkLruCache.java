@@ -6,8 +6,16 @@ import com.mrkaz.sdk.data.cache.Cache;
 import com.mrkaz.sdk.data.cache.CacheData;
 
 public class LinkLruCache implements Cache<String, CacheData<String>> {
-    private static final int CACHE_SIZE = 100;
-    private final LruCache<String, CacheData<String>> cache = new LruCache<>(CACHE_SIZE);
+    private static final int DEFAULT_CACHE_SIZE = 100;
+    private final LruCache<String, CacheData<String>> cache;
+
+    public LinkLruCache(){
+        cache = new LruCache<>(DEFAULT_CACHE_SIZE);
+    }
+
+    public LinkLruCache(int cacheSize){
+        cache = new LruCache<>(cacheSize);
+    }
 
     @Override
     public CacheData<String> get(String key) {

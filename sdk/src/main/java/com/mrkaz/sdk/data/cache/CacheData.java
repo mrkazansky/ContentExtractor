@@ -17,6 +17,14 @@ public class CacheData<T> {
         return value;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public long getTimeout(){
+        return timeout;
+    }
+
     public boolean isExpired() {
         return (System.currentTimeMillis() - timestamp) > timeout;
     }

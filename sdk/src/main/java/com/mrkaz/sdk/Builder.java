@@ -32,23 +32,17 @@ public class Builder {
         return this;
     }
 
-    public Builder executor(ExecutorService executor) {
+    public Builder setExecutor(ExecutorService executor) {
         this.executor = executor;
         return this;
     }
 
-    public Builder resultHandler(Handler resultHandler) {
+    public Builder setResultHandler(Handler resultHandler) {
         this.resultHandler = resultHandler;
         return this;
     }
 
     public ContentExtractor build() {
-        if (executor == null) {
-            executor = Executors.newCachedThreadPool();
-        }
-        if (resultHandler == null) {
-            resultHandler = new Handler(Looper.getMainLooper());
-        }
         ContentExtractorInteractor contentExtractor = new ContentExtractorInteractorImpl(linkExtractor, mentionExtractor);
         return new ContentExtractorImpl(contentExtractor, executor, resultHandler);
     }

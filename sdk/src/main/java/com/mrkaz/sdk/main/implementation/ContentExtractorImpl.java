@@ -27,6 +27,7 @@ public class ContentExtractorImpl implements ContentExtractor {
 
     @Override
     public void extract(String input, ContentExtractorCallback callback) {
+        if (executor == null || resultHandler == null) return;
         executor.execute(() -> {
             ContentExtractorResult result = contentExtractorInteractor.extract(input);
             resultHandler.post(() -> callback.onContentResult(result));

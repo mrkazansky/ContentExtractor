@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class NetworkServiceImpl implements NetworkService {
+
     @Override
     public String fetchWebContent(String webUrl) throws IOException {
         URL url = new URL(webUrl);
