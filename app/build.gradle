@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.mrkaz.contentextractor"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -40,8 +40,10 @@ android {
         kotlinCompilerExtensionVersion "$compose_ui_version"
     }
     packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE-notice.md")
+        jniLibs {
+            useLegacyPackaging true
         }
     }
 }
@@ -85,6 +87,7 @@ dependencies {
 
     //Android test
     androidTestImplementation "androidx.test.ext:junit:$junit_etx_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+
 }

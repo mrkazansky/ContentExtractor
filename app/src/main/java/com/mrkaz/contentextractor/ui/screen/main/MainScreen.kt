@@ -13,12 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.mrkaz.contentextractor.R
+import com.mrkaz.contentextractor.ui.constant.UiTag.TAG_CONTENT
+import com.mrkaz.contentextractor.ui.constant.UiTag.TAG_INPUT_TEXT
+import com.mrkaz.contentextractor.ui.constant.UiTag.TAG_PLACEHOLDER_VIEW
 import com.mrkaz.contentextractor.ui.theme.Padding.BORDER_SPACING
 import com.mrkaz.contentextractor.ui.theme.Padding.ELEMENT_SPACING
 import com.mrkaz.contentextractor.ui.theme.Shapes
@@ -59,11 +63,15 @@ fun MainPage(state: MainState, onValueChange: (String) -> Unit) {
                         .fillMaxHeight()
                         .verticalScroll(scroll)
                         .padding(horizontal = BORDER_SPACING, vertical = ELEMENT_SPACING)
+                        .testTag(TAG_CONTENT)
                 )
                 this@Column.AnimatedVisibility(
                     visible = state.result.isEmpty()
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.testTag(TAG_PLACEHOLDER_VIEW)
+                    ) {
                         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_ghost))
                         LottieAnimation(
                             composition,
@@ -100,7 +108,8 @@ fun MainPage(state: MainState, onValueChange: (String) -> Unit) {
             placeholder = { Text(stringResource(id = R.string.input_holder)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(BORDER_SPACING),
+                .padding(BORDER_SPACING)
+                .testTag(TAG_INPUT_TEXT),
             singleLine = true
         )
     }

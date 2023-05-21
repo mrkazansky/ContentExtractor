@@ -34,6 +34,7 @@ public class ContentExtractorImpl implements ContentExtractor {
 
     @Override
     public void close() {
+        if (executor == null) return;
         executor.shutdown();
     }
 }
