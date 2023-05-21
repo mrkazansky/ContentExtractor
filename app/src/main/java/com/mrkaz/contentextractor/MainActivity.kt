@@ -7,6 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import com.mrkaz.contentextractor.ui.screen.main.MainScreen
 import com.mrkaz.contentextractor.ui.theme.ContentExtractorTheme

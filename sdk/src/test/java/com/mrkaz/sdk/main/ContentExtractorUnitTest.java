@@ -34,9 +34,6 @@ public class ContentExtractorUnitTest {
     private ContentExtractorInteractor mockContentExtractorInteractor;
 
     @Mock
-    private Handler mockResultHandler;
-
-    @Mock
     ContentExtractorCallback mockCallback;
 
     @Mock
@@ -47,7 +44,7 @@ public class ContentExtractorUnitTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        contentExtractor = new ContentExtractorImpl(mockContentExtractorInteractor, mockExecutorService, mockResultHandler);
+        contentExtractor = new ContentExtractorImpl(mockContentExtractorInteractor, mockExecutorService);
     }
 
     @After
@@ -69,7 +66,6 @@ public class ContentExtractorUnitTest {
                     return null;
                 }
         ).when(mockExecutorService).execute(any(Runnable.class));
-        ArgumentCaptor<Runnable> callbackCaptor = ArgumentCaptor.forClass(Runnable.class);
         when(mockContentExtractorInteractor.extract(input)).thenReturn(mockResult);
 
         // Assign
@@ -78,8 +74,6 @@ public class ContentExtractorUnitTest {
         // Assign
         verify(mockExecutorService, times(1)).execute(any(Runnable.class));
         verify(mockContentExtractorInteractor, times(1)).extract(input);
-        verify(mockResultHandler, times(1)).post(callbackCaptor.capture());
-        callbackCaptor.getValue().run();
         verify(mockCallback, times(1)).onContentResult(mockResult);
     }
 
@@ -109,7 +103,6 @@ public class ContentExtractorUnitTest {
         contentExtractor.close();
 
         // Assert
-        verify(mockResultHandler, times(1)).removeCallbacksAndMessages(null);
         verify(mockExecutorService, times(1)).shutdown();
     }
 }

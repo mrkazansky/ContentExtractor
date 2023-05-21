@@ -35,7 +35,7 @@ class MainViewModel(private val commentUseCase: ExtractCommentUseCase) :
                     .debounce { if (it.isBlank()) 0 else DEBOUNCE_TIME }
                     .flowOn(Dispatchers.IO)
                     .flatMapLatest {
-                        flowOf(commentUseCase.extractComment(it))
+                        flowOf(commentUseCase.extractComment(it)).drop()
                     }
                     .collect {
                         reduce {

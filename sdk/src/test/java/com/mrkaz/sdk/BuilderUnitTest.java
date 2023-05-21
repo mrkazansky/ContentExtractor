@@ -48,7 +48,6 @@ public class BuilderUnitTest {
                 .setLinkExtractor(mockLinkExtractor)
                 .setMentionExtractor(mockMentionExtractor)
                 .setExecutor(mockExecutorService)
-                .setResultHandler(mockResultHandler)
                 .build();
         when(mockLinkExtractor.extract(anyString())).thenReturn(Collections.emptyList());
         when(mockMentionExtractor.extract(anyString())).thenReturn(Collections.emptyList());

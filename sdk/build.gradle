@@ -28,10 +28,10 @@ android {
 
 dependencies {
     testImplementation "junit:junit:$junit_version"
-    testImplementation 'org.robolectric:robolectric:4.4'
-    testImplementation 'org.mockito:mockito-core:2.10.0'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+    testImplementation "org.robolectric:robolectric:$robolectric_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.powermock:powermock-api-mockito2:$powermock_version"
+    testImplementation "org.powermock:powermock-module-junit4:$powermock_version"
 
 
 }

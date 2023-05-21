@@ -11,13 +11,11 @@ import java.util.concurrent.ExecutorService;
 
 public class ContentExtractorImpl implements ContentExtractor {
     private final ExecutorService executor;
-    private final Handler resultHandler;
     private final ContentExtractorInteractor contentExtractorInteractor;
 
-    public ContentExtractorImpl(ContentExtractorInteractor contentExtractorInteractor, ExecutorService executor, Handler resultHandler) {
+    public ContentExtractorImpl(ContentExtractorInteractor contentExtractorInteractor, ExecutorService executor) {
         this.contentExtractorInteractor = contentExtractorInteractor;
         this.executor = executor;
-        this.resultHandler = resultHandler;
     }
 
     @Override
@@ -27,16 +25,15 @@ public class ContentExtractorImpl implements ContentExtractor {
 
     @Override
     public void extract(String input, ContentExtractorCallback callback) {
-        if (executor == null || resultHandler == null) return;
+        if (executor == null) return;
         executor.execute(() -> {
             ContentExtractorResult result = contentExtractorInteractor.extract(input);
-            resultHandler.post(() -> callback.onContentResult(result));
+            callback.onContentResult(result);
         });
     }
 
     @Override
     public void close() {
-        resultHandler.removeCallbacksAndMessages(null);
         executor.shutdown();
     }
 }

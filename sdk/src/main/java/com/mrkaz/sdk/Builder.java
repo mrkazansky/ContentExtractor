@@ -20,7 +20,6 @@ public class Builder {
     private Extractor<LinkInfo> linkExtractor = new LinkExtractor(Container.linkRepository, Container.linkLruCache);
     private Extractor<String> mentionExtractor = new MentionExtractor();
     private ExecutorService executor;
-    private Handler resultHandler;
 
     public Builder setLinkExtractor(Extractor<LinkInfo> extractor) {
         this.linkExtractor = extractor;
@@ -37,14 +36,9 @@ public class Builder {
         return this;
     }
 
-    public Builder setResultHandler(Handler resultHandler) {
-        this.resultHandler = resultHandler;
-        return this;
-    }
-
     public ContentExtractor build() {
         ContentExtractorInteractor contentExtractor = new ContentExtractorInteractorImpl(linkExtractor, mentionExtractor);
-        return new ContentExtractorImpl(contentExtractor, executor, resultHandler);
+        return new ContentExtractorImpl(contentExtractor, executor);
     }
 }
 
