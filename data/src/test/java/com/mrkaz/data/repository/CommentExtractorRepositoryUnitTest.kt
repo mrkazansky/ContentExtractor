@@ -5,26 +5,26 @@ import com.mrkaz.data.model.ExtractedCommentModel
 import com.mrkaz.data.repository.implementation.CommentExtractorRepositoryImpl
 import com.mrkaz.sdk.main.ContentExtractor
 import com.mrkaz.sdk.model.ContentExtractorResult
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
 
 class CommentExtractorRepositoryUnitTest {
-
-    @Mock
+    @MockK(relaxed = true)
     private lateinit var extractor: ContentExtractor
 
-    @Mock
+    @MockK
     private lateinit var mapper: ModelMapper<ContentExtractorResult, ExtractedCommentModel>
 
     private lateinit var repository: CommentExtractorRepository
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         repository = CommentExtractorRepositoryImpl(extractor, mapper)
     }
 
@@ -37,8 +37,8 @@ class CommentExtractorRepositoryUnitTest {
         val expectedExtractedCommentModel =
             ExtractedCommentModel(listOf("@bill", "@billgate"), emptyList())
 
-        `when`(extractor.extract(input)).thenReturn(contentExtractorResult)
-        `when`(mapper.map(contentExtractorResult)).thenReturn(expectedExtractedCommentModel)
+        coEvery { extractor.extract(input) } returns contentExtractorResult
+        coEvery { mapper.map(contentExtractorResult) } returns expectedExtractedCommentModel
 
         // Assign
         val result = repository.extractContent(input)
@@ -53,6 +53,6 @@ class CommentExtractorRepositoryUnitTest {
         repository.close()
 
         // Assert
-        verify(extractor, times(1)).close()
+        verify { extractor.close() }
     }
 }

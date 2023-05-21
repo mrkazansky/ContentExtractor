@@ -9,53 +9,47 @@ import kotlinx.coroutines.flow.*
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.syntax.simple.repeatOnSubscription
 import org.orbitmvi.orbit.viewmodel.container
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class MainViewModel(private val commentUseCase: ExtractCommentUseCase) :
-    ContainerHost<MainState, Nothing>, ViewModel() {
-
-    private companion object {
-        private const val DEBOUNCE_TIME = 300L
-    }
+class MainViewModel(
+    private val commentUseCase: ExtractCommentUseCase
+) : ContainerHost<MainState, Nothing>, ViewModel() {
+    private val _commentFlow = MutableStateFlow("")
+    private val commentFlow = _commentFlow.asStateFlow()
 
     override val container = container<MainState, Nothing>(
         MainState()
-    )
-
-    init {
+    ) {
         intent {
-            repeatOnSubscription {
-                container
-                    .stateFlow
-                    .map { it.comment }
-                    .distinctUntilChanged()
-                    .debounce { if (it.isBlank()) 0 else DEBOUNCE_TIME }
-                    .flowOn(Dispatchers.IO)
-                    .flatMapLatest {
-                        flowOf(commentUseCase.extractComment(it)).drop()
+            commentFlow
+                .debounce { if (it.isBlank()) 0 else DEBOUNCE_TIME }
+                .flowOn(Dispatchers.IO)
+                .flatMapLatest {
+                    flowOf(commentUseCase.extractComment(it))
+                }
+                .collect {
+                    reduce {
+                        state.copy(result = it)
                     }
-                    .collect {
-                        reduce {
-                            state.copy(result = it)
-                        }
-                    }
-            }
+                }
         }
     }
 
-    fun comment(comment: String) {
-        intent {
-            reduce {
-                state.copy(comment = comment)
-            }
+    fun comment(comment: String) = intent {
+        _commentFlow.emit(comment)
+        reduce {
+            state.copy(comment = comment)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         commentUseCase.close()
+    }
+
+    private companion object {
+        private const val DEBOUNCE_TIME = 300L
     }
 }
