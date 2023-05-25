@@ -5,7 +5,7 @@ import com.mrkaz.data.model.ExtractedCommentModel
 import com.mrkaz.data.model.LinkContent
 import com.mrkaz.sdk.model.ContentExtractorResult
 import com.mrkaz.sdk.model.LinkInfo
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ExtractedCommentModelMapperUnitTest {

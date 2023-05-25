@@ -5,7 +5,7 @@ import android.util.LruCache;
 import com.mrkaz.sdk.data.cache.Cache;
 import com.mrkaz.sdk.data.cache.CacheData;
 
-public class LinkLruCache implements Cache<String, CacheData<String>> {
+public final class LinkLruCache implements Cache<String, CacheData<String>> {
     private static final int DEFAULT_CACHE_SIZE = 100;
     private final LruCache<String, CacheData<String>> cache;
 

@@ -21,5 +21,4 @@ class ExtractedCommentModelUnitTest {
         assertEquals(mentions, extractedCommentModel.mentions)
         assertEquals(links, extractedCommentModel.links)
     }
-
 }

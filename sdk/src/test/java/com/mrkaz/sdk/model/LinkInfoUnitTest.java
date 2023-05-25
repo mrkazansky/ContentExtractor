@@ -9,8 +9,8 @@ public class LinkInfoUnitTest {
     @Test
     public void testLinkInfo() {
         // Arrange
-        String url = "https://www.example.com";
-        String title = "Example Title";
+        String url = "https://www.google.com";
+        String title = "Google";
 
         // Assign
         LinkInfo linkInfo = new LinkInfo(url, title);

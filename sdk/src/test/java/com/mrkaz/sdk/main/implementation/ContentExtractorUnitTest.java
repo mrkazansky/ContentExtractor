@@ -1,16 +1,15 @@
-package com.mrkaz.sdk.main;
+package com.mrkaz.sdk.main.implementation;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import android.os.Handler;
-
 import com.mrkaz.sdk.domain.ContentExtractorInteractor;
+import com.mrkaz.sdk.main.ContentExtractor;
+import com.mrkaz.sdk.main.ContentExtractorCallback;
 import com.mrkaz.sdk.main.implementation.ContentExtractorImpl;
 import com.mrkaz.sdk.model.ContentExtractorResult;
 import com.mrkaz.sdk.model.LinkInfo;
@@ -18,7 +17,6 @@ import com.mrkaz.sdk.model.LinkInfo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -28,8 +26,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class ContentExtractorUnitTest {
-
-
     @Mock
     private ContentExtractorInteractor mockContentExtractorInteractor;
 

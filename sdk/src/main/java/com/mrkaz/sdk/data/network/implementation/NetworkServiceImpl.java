@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class NetworkServiceImpl implements NetworkService {
+public final class NetworkServiceImpl implements NetworkService {
 
     @Override
     public String fetchWebContent(String webUrl) throws IOException {

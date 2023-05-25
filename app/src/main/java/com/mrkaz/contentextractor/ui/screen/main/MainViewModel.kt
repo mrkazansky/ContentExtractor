@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.*
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.syntax.simple.repeatOnSubscription
 import org.orbitmvi.orbit.viewmodel.container
 
 @ExperimentalCoroutinesApi
@@ -22,7 +23,7 @@ class MainViewModel(
     override val container = container<MainState, Nothing>(
         MainState()
     ) {
-        intent {
+        repeatOnSubscription {
             commentFlow
                 .debounce { if (it.isBlank()) 0 else DEBOUNCE_TIME }
                 .flowOn(Dispatchers.IO)

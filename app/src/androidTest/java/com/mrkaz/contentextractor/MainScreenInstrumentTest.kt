@@ -13,11 +13,10 @@ import com.mrkaz.contentextractor.ui.constant.UiTag.TAG_INPUT_TEXT
 import com.mrkaz.contentextractor.ui.constant.UiTag.TAG_PLACEHOLDER_VIEW
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import org.koin.test.KoinTest
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -25,7 +24,6 @@ import kotlin.test.assertEquals
 class MainScreenInstrumentTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule(MainActivity::class.java)
-
 
     @Test
     fun testMainScreenInit() {
@@ -72,8 +70,8 @@ class MainScreenInstrumentTest {
         // Assert
         composeTestRule.onNodeWithTag(TAG_PLACEHOLDER_VIEW).assertDoesNotExist()
         val text = composeTestRule.onNodeWithTag(TAG_CONTENT).fetchSemanticsNode().config[Text]
-        assertContains(text.toString(), expectedLinkTitle)
-        assertContains(text.toString(), expectedMention)
+        assertTrue(text.toString().contains(expectedLinkTitle))
+        assertTrue(text.toString().contains(expectedMention))
 
     }
 }

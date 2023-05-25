@@ -95,7 +95,6 @@ fun MainPage(state: MainState, onValueChange: (String) -> Unit) {
                                     stringResource(id = R.string.result_nothing)
                             )
                         }
-
                     }
                 }
             }

@@ -7,7 +7,7 @@ import com.mrkaz.sdk.model.LinkInfo;
 
 import java.util.List;
 
-public class ContentExtractorInteractorImpl implements ContentExtractorInteractor {
+public final class ContentExtractorInteractorImpl implements ContentExtractorInteractor {
     private final Extractor<LinkInfo> linkExtractor;
     private final Extractor<String> mentionExtractor;
 

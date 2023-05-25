@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LinkExtractor extends Extractor<LinkInfo> {
+public final class LinkExtractor implements Extractor<LinkInfo> {
     public static final String EMPTY_TITLE = "Empty title";
     private static final String URL_PATTERN_REGEX = "(?i)\\bhttps?://" +
             "(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+" +
@@ -33,6 +33,8 @@ public class LinkExtractor extends Extractor<LinkInfo> {
     @Override
     public List<LinkInfo> extract(String input) {
         List<LinkInfo> links = new ArrayList<>();
+        if (input == null)
+            return links;
         Matcher matcher = URL_PATTERN.matcher(input);
         while (matcher.find()) {
             String url = matcher.group();

@@ -1,4 +1,15 @@
-package com.mrkaz.sdk;
+package com.mrkaz.sdk.main.implementation;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.mrkaz.sdk.data.extractor.Extractor;
+import com.mrkaz.sdk.main.ContentExtractor;
+import com.mrkaz.sdk.main.implementation.Builder;
+import com.mrkaz.sdk.model.LinkInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,21 +19,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import android.os.Handler;
-
-import com.mrkaz.sdk.data.extractor.Extractor;
-import com.mrkaz.sdk.main.ContentExtractor;
-import com.mrkaz.sdk.model.LinkInfo;
-
 public class BuilderUnitTest {
-
     @Mock
     private Extractor<LinkInfo> mockLinkExtractor;
 
@@ -32,9 +29,6 @@ public class BuilderUnitTest {
     @Mock
     private ExecutorService mockExecutorService;
 
-    @Mock
-    private Handler mockResultHandler;
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -43,7 +37,7 @@ public class BuilderUnitTest {
     @Test
     public void testBuildHappyCase() {
         // Arrange
-        String inputString = "hello @bill";
+        String inputString = "@bill is reading https://www.google.com";
         ContentExtractor extractor = new Builder()
                 .setLinkExtractor(mockLinkExtractor)
                 .setMentionExtractor(mockMentionExtractor)
@@ -60,5 +54,4 @@ public class BuilderUnitTest {
         verify(mockLinkExtractor, times(1)).extract(inputString);
         verify(mockMentionExtractor, times(1)).extract(inputString);
     }
-
 }

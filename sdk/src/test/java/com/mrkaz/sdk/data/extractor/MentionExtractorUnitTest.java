@@ -3,11 +3,9 @@ package com.mrkaz.sdk.data.extractor;
 import static org.junit.Assert.assertEquals;
 
 import com.mrkaz.sdk.data.extractor.implermentation.MentionExtractor;
-import com.mrkaz.sdk.model.LinkInfo;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,10 +26,24 @@ public class MentionExtractorUnitTest {
     }
 
     @Test
-    public void testMentionExtractorNoMentions() {
+    public void testMentionExtractorNoMentionsCase() {
         // Arrange
         Extractor<String> mentionExtractor = new MentionExtractor();
         String input = "How are you?";
+        List<String> expectedMentions = Collections.emptyList();
+
+        // Assign
+        List<String> extractedMentions = mentionExtractor.extract(input);
+
+        // Assert
+        assertEquals(expectedMentions, extractedMentions);
+    }
+
+    @Test
+    public void testMentionExtractorNullInputCase() {
+        // Arrange
+        Extractor<String> mentionExtractor = new MentionExtractor();
+        String input = null;
         List<String> expectedMentions = Collections.emptyList();
 
         // Assign

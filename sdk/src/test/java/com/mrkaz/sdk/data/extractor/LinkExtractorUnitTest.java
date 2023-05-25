@@ -45,8 +45,8 @@ public class LinkExtractorUnitTest {
         String expectedTitle = "Google";
         String expectedHtml = "<html><head><title>Google</title></head><body></body></html>";
 
-        when(networkService.fetchWebContent(anyString())).thenReturn(expectedHtml);
-        when(cache.isCached(anyString())).thenReturn(false);
+        when(networkService.fetchWebContent(expectedTitle)).thenReturn(expectedHtml);
+        when(cache.isCached(expectedTitle)).thenReturn(false);
 
         Extractor<LinkInfo> linkExtractor = new LinkExtractor(networkService, cache);
         String input = "Verify this link: https://www.google.com!";
@@ -76,9 +76,9 @@ public class LinkExtractorUnitTest {
         String expectedHtml = "<html><head><title>Google</title></head><body></body></html>";
         CacheData<String> expectedCacheData = new CacheData<>(expectedTitle, System.currentTimeMillis(), 1000, TimeUnit.MILLISECONDS);
 
-        when(networkService.fetchWebContent(anyString())).thenReturn(expectedHtml);
-        when(cache.isCached(anyString())).thenReturn(true);
-        when(cache.get(anyString())).thenReturn(expectedCacheData);
+        when(networkService.fetchWebContent(expectedTitle)).thenReturn(expectedHtml);
+        when(cache.isCached(expectedTitle)).thenReturn(true);
+        when(cache.get(expectedTitle)).thenReturn(expectedCacheData);
 
         Extractor<LinkInfo> linkExtractor = new LinkExtractor(networkService, cache);
         String input = "Verify this link: https://www.google.com!";
@@ -107,8 +107,8 @@ public class LinkExtractorUnitTest {
         String expectedTitle = EMPTY_TITLE;
         String expectedHtml = "<html><head></head><body></body></html>";
 
-        when(networkService.fetchWebContent(anyString())).thenReturn(expectedHtml);
-        when(cache.isCached(anyString())).thenReturn(false);
+        when(networkService.fetchWebContent(expectedTitle)).thenReturn(expectedHtml);
+        when(cache.isCached(expectedTitle)).thenReturn(false);
 
         Extractor<LinkInfo> linkExtractor = new LinkExtractor(networkService, cache);
         String input = "Verify this link: https://www.google.com!";
@@ -160,6 +160,28 @@ public class LinkExtractorUnitTest {
 
         Extractor<LinkInfo> linkExtractor = new LinkExtractor(networkService, cache);
         String input = "Verify this link: www.google.com";
+
+        // Assign
+        List<LinkInfo> extractedLinks = linkExtractor.extract(input);
+
+        // Assert
+        assertEquals(0, extractedLinks.size());
+
+        // Verify cache interaction
+        verify(cache, never()).isCached(anyString());
+        verify(cache, never()).put(anyString(), any(CacheData.class));
+
+        // Verify network service interaction
+        verify(networkService, never()).fetchWebContent(anyString());
+    }
+
+    @Test
+    public void testLinkExtractorNullInputCase() throws IOException {
+        // Arrange
+        when(cache.isCached(anyString())).thenReturn(false);
+
+        Extractor<LinkInfo> linkExtractor = new LinkExtractor(networkService, cache);
+        String input = null;
 
         // Assign
         List<LinkInfo> extractedLinks = linkExtractor.extract(input);
